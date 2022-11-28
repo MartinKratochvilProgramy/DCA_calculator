@@ -1,14 +1,14 @@
 const yahooFinance = require('yahoo-finance');
 
-interface Result {
+interface TickerDataInterface {
     ticker: String;
     dates: String[];
     values: Number[];
 }
 
-async function getHistoricalData(ticker: String, startDate: String): Promise<Result> {
+async function getHistoricalData(ticker: String, startDate: String): Promise<TickerDataInterface> {
   
-    const tickerData: Result = await new Promise((res, rej) => {
+    const tickerData: TickerDataInterface = await new Promise((res, rej) => {
       yahooFinance.historical({
         symbol: ticker,
         from: startDate,

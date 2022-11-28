@@ -1,32 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { TickersSelect } from './components/TickersSelect';
+import { TickersDisplay } from './components/TickersDisplay';
+import { serverRoute } from './serverRoute';
+
+interface TickerDataInterface {
+  ticker: string;
+  dates: string[];
+  values: number[];
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [tickers, setTickers] = useState<string[]>(["AAPL", "MSFT"]);
+  const [data, setData] = useState<TickerDataInterface[]>([]);
+
+  function getData(): void {
+    console.log("get data");
+
+    fetch(serverRoute + '/get_chart_data', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tickers: tickers,
+        startDate: "2022-11-11" 
+      })
+    })
+    .then((response ) => response.json())
+    .then((res) => {
+      console.log(res)
+      setData(res)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+    
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="">
+      <TickersSelect 
+        tickers={tickers}
+        setTickers={setTickers}  
+        getData={getData}
+      />
+      <TickersDisplay
+        data={data}
+      />
     </div>
   )
 }

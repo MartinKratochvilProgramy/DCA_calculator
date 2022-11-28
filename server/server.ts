@@ -9,22 +9,26 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-interface Data {
+interface TickerDataInterface {
   ticker: String;
   dates: String[];
   values: Number[];
 }
 
-app.get("/get_chart_data", async (req: any, res: any) => {
+app.post("/get_chart_data", async (req: any, res: any) => {
   const tickers: String[] = req.body.tickers;
   const startDate: String = req.body.startDate;
-  const data: Data[] = [];
+
+  const data: TickerDataInterface[] = [];
+
+  console.log(tickers, startDate, data);
+  
 
   for (let i = 0; i < tickers.length; i++) {
-    const tickerData: Data = await getData(tickers[i], startDate);
+    const tickerData: TickerDataInterface = await getData(tickers[i], startDate);
     data.push(tickerData);
   }
-  
+
   res.json(data)
 })
 
