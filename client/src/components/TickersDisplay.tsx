@@ -10,7 +10,6 @@ interface TickerData {
 interface SeriesData {
     x: string[];
     y: number[];
-    type: string;
     mode: string;
     name: string
 }
@@ -38,8 +37,7 @@ export const TickersDisplay: FC<Props> = ({ data }) => {
                 }
                 },
         },
-        title: false,
-        autosize: true,
+        autosize: true, 
     } ;
 
     function initSeriesData(ticker: TickerData): SeriesData {
@@ -47,7 +45,6 @@ export const TickersDisplay: FC<Props> = ({ data }) => {
             {
                 x: ticker.dates,
                 y: ticker.values,
-                type: 'scatter',
                 mode: 'lines',
                 name: ticker.ticker
             }
