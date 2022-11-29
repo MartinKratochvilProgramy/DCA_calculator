@@ -17,10 +17,11 @@ interface SeriesData {
 
 interface Props {
     data: TickerData[];
+    inputComplete: boolean;
     getData: () => void;
 }
 
-export const TickersDisplay: FC<Props> = ({ data, getData }) => {
+export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
 
     const allSeriesLayout =  {
         xaxis: {
@@ -61,14 +62,22 @@ export const TickersDisplay: FC<Props> = ({ data, getData }) => {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-        TickersDisplay
         <div>
-            <Button 
-                variant="contained"
-                onClick={getData}
-                >
-                Load data
-            </Button>
+            {inputComplete ?
+                <Button 
+                    variant="contained"
+                    onClick={getData}
+                    >
+                    Load data
+                </Button>
+            : 
+                <Button 
+                    variant="contained"
+                    disabled
+                    >
+                    Load data
+                </Button>
+            }
         </div>
         <Plot
             layout={allSeriesLayout}

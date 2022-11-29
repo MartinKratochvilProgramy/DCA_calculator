@@ -8,11 +8,12 @@ interface Props {
     tickers: string[];
     addTicker: (tickers: string) => void;
     deleteTicker: (tickers: string) => void;
-    getData: () => void;
     modifyStartDate: (startDate: Dayjs) => void;
+    setStartAmount: (startAmount: number) => void;
+    setIncrementAmount: (incrementAmount: number) => void;
 }
 
-export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, getData, modifyStartDate }) => {
+export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, modifyStartDate, setStartAmount, setIncrementAmount }) => {
 
 
   return (
@@ -39,6 +40,8 @@ export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, get
 
         <SelectRangesForm
           modifyStartDate={modifyStartDate}
+          setStartAmount={setStartAmount}
+          setIncrementAmount={setIncrementAmount}
         />
     </div>
   )

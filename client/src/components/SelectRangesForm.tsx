@@ -7,9 +7,11 @@ import TextField from '@mui/material/TextField';
 
 interface Props {
     modifyStartDate: (startDate: Dayjs) => void;
+    setStartAmount: (startAmount: number) => void;
+    setIncrementAmount: (incrementAmount: number) => void;
 }
 
-export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate }) => {
+export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate, setStartAmount, setIncrementAmount }) => {
 
     const [dateValue, setDateValue] = React.useState<Dayjs>(
         dayjs('2014-08-18T21:11:54'),
@@ -31,14 +33,14 @@ export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate }) => {
                     label="Starting amount ($)" 
                     variant="standard" 
                     type={'number'}
-                    onChange={(e) => console.log(e.target.value)}
+                    onChange={(e) => setStartAmount(parseFloat(e.target.value))}
                     />
                 <TextField 
                     id="standard-basic" 
                     label="Monthly investment ($)" 
                     variant="standard" 
                     type={'number'}
-                    onChange={(e) => console.log(e.target.value)}
+                    onChange={(e) => setIncrementAmount(parseFloat(e.target.value))}
                 />
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

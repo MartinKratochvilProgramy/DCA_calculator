@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TickersSelect } from './components/TickersSelect';
 import { TickersDisplay } from './components/TickersDisplay';
 import { serverRoute } from './serverRoute';
@@ -15,6 +15,17 @@ function App() {
   const [tickers, setTickers] = useState<string[]>([]);
   const [data, setData] = useState<TickerDataInterface[]>([]);
   const [startDate, setStartDate] = useState<Dayjs>( dayjs('2014-08-18'));
+  const [startAmount, setStartAmount] = useState<number | null>(null);
+  const [incrementAmount, setIncrementAmount] = useState<number | null>(null);
+
+  const [inputComplete, setInputComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (startAmount !== null && incrementAmount !== null && tickers.length > 0) {
+      setInputComplete(true);
+    }
+  }, [startAmount, incrementAmount, tickers])
+  
 
   function getData(): void {
     console.log("get data");
@@ -66,11 +77,13 @@ function App() {
         tickers={tickers}
         addTicker={addTicker}  
         deleteTicker={deleteTicker}  
-        getData={getData}
         modifyStartDate={modifyStartDate}
+        setStartAmount={setStartAmount}
+        setIncrementAmount={setIncrementAmount}
       />
       <TickersDisplay
         data={data}
+        inputComplete={inputComplete}
         getData={getData}
       />
     </div>
