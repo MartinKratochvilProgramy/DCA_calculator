@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TickersSelect } from './components/TickersSelect';
 import { TickersDisplay } from './components/TickersDisplay';
 import { serverRoute } from './serverRoute';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface TickerDataInterface {
   ticker: string;
@@ -13,6 +14,7 @@ function App() {
 
   const [tickers, setTickers] = useState<string[]>([]);
   const [data, setData] = useState<TickerDataInterface[]>([]);
+  const [startDate, setStartDate] = useState<Dayjs>( dayjs('2014-08-18'));
 
   function getData(): void {
     console.log("get data");
@@ -24,7 +26,7 @@ function App() {
       },
       body: JSON.stringify({
         tickers: tickers,
-        startDate: "2022-11-11" 
+        startDate: startDate 
       })
     })
     .then((response ) => response.json())
@@ -54,6 +56,10 @@ function App() {
     setTickers([...newTickers]);
   }
 
+  function modifyStartDate(startDate: Dayjs): void {
+    setStartDate(startDate);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <TickersSelect 
@@ -61,9 +67,11 @@ function App() {
         addTicker={addTicker}  
         deleteTicker={deleteTicker}  
         getData={getData}
+        modifyStartDate={modifyStartDate}
       />
       <TickersDisplay
         data={data}
+        getData={getData}
       />
     </div>
   )

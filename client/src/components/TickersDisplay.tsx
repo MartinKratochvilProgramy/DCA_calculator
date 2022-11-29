@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import Plot from 'react-plotly.js';   
+import Plot from 'react-plotly.js';  
+import Button from '@mui/material/Button'; 
 
 interface TickerData {
     ticker: string;
@@ -16,9 +17,10 @@ interface SeriesData {
 
 interface Props {
     data: TickerData[];
+    getData: () => void;
 }
 
-export const TickersDisplay: FC<Props> = ({ data }) => {
+export const TickersDisplay: FC<Props> = ({ data, getData }) => {
 
     const allSeriesLayout =  {
         xaxis: {
@@ -58,8 +60,16 @@ export const TickersDisplay: FC<Props> = ({ data }) => {
     }
 
   return (
-    <div>
+    <div className='flex flex-col justify-center items-center'>
         TickersDisplay
+        <div>
+            <Button 
+                variant="contained"
+                onClick={getData}
+                >
+                Load data
+            </Button>
+        </div>
         <Plot
             layout={allSeriesLayout}
             data={allSeriesData}

@@ -30,14 +30,14 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              ticker: tickerInput, 
+              ticker: tickerInput.toUpperCase(), 
             })
           })
           .then((response) => response.json())
           .then((res: null | Error) => {
             setError(res);
             if (res === null) {
-                addTicker(tickerInput);
+                addTicker(tickerInput.toUpperCase());
             }
           })
     }
