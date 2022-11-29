@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import Plot from 'react-plotly.js';  
 import Button from '@mui/material/Button'; 
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface TickerData {
     ticker: string;
@@ -22,6 +23,8 @@ interface Props {
 }
 
 export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
+
+    const [waitingForData, setWaitingForData] = useState<boolean>(false);
 
     const allSeriesLayout =  {
         xaxis: {
@@ -55,29 +58,41 @@ export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
         return seriesData;
     }
 
+    function handleClick(): void {
+        getData();
+        setWaitingForData(true);
+    }
+
     const allSeriesData: SeriesData[] = [];
     for (const ticker of data) {    
         allSeriesData.push(initSeriesData(ticker));
     }
+    useEffect(() => {
+        setWaitingForData(false);
+    }, [data])
+    
 
   return (
     <div className='flex flex-col justify-center items-center'>
-        <div>
-            {inputComplete ?
-                <Button 
+        <div className='flex min-h-[36px]'>
+            {waitingForData ? 
+                <LoadingButton
+                    size="small"
                     variant="contained"
-                    onClick={getData}
-                    >
-                    Load data
-                </Button>
-            : 
-                <Button 
-                    variant="contained"
+                    loading={true}
                     disabled
                     >
+                </LoadingButton>
+            :
+                <Button 
+                    variant="contained"
+                    onClick={handleClick}
+                    disabled={!inputComplete}
+                >
                     Load data
                 </Button>
             }
+
         </div>
         <Plot
             layout={allSeriesLayout}
