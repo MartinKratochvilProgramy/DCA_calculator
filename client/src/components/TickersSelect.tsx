@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Ticker } from './Ticker';
 import { AddTickerForm } from './AddTickerForm';
+import Chip from '@mui/material/Chip';
 
 interface Props {
     tickers: string[];
@@ -22,11 +23,13 @@ export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, get
       <div className="flex justify-center">
         {tickers.map(ticker => {
           return (
-            <Ticker 
-              ticker={ticker} 
-              deleteTicker={deleteTicker} 
-              key={ticker}  
-            />  
+            <Chip 
+              key={ticker}
+              label={ticker} 
+              color="primary" 
+              variant="outlined" 
+              onDelete={() => deleteTicker(ticker)}  
+            />
           )
         })}
       </div>

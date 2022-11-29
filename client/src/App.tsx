@@ -39,11 +39,19 @@ function App() {
   }
 
   function addTicker(newTicker: string): void {
-    setTickers([...tickers, newTicker]);
+    if (!tickers.includes(newTicker)) {
+      setTickers([...tickers, newTicker]);
+    }
   }
 
-  function deleteTicker(newTicker: string): void {
-    setTickers([...tickers, newTicker]);
+  function deleteTicker(tickerName: string): void {
+    console.log(tickerName);
+    
+    const newTickers = tickers;
+    newTickers.splice(newTickers.indexOf(tickerName), 1);
+    console.log(newTickers);
+    
+    setTickers([...newTickers]);
   }
 
   return (
