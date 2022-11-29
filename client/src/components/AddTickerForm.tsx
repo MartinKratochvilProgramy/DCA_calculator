@@ -56,7 +56,7 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
                 SELECT <span className='text-blue-600'>TICKERS</span> YOU WISH TO <span className='text-blue-600'>TRACK</span>
             </h1>
             <div className="relative flex flex-row justify-center h-full w-full">
-                <div className='w-full'>
+                <div className='flex w-full'>
                     <label htmlFor ="add-stock" className="sr-only">Ticker input</label>
                     <input 
                     type="text" 
@@ -72,7 +72,7 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
                     />
 
                 </div>
-                <div className="w-6/12 flex">
+                <div className="w-8/12 xs:w-4/12 flex">
                   {waitingForValidation ?
                     <LoadingButton
                       size="small"
@@ -85,6 +85,7 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
                   :
                   <Button 
                     type="submit"
+                    size="small"
                     variant="contained"
                     fullWidth={true}
                     >
