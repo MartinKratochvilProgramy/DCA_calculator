@@ -2,7 +2,7 @@ import express from 'express';
 const cors = require('cors');
 require('dotenv').config()
 const app = express();
-const getData = require("./getHistoricalData");
+const getHistoricalData = require("./getHistoricalData");
 const fetch = require('node-fetch');
 
 app.use(cors()); // allow localhost 3000 (client) requests
@@ -23,14 +23,14 @@ app.post("/get_chart_data", async (req: any, res: any) => {
   const data: TickerDataInterface[] = [];
 
   for (let i = 0; i < tickers.length; i++) {
-    const tickerData: TickerDataInterface = await getData(tickers[i], startDate);
+    const tickerData: TickerDataInterface = await getHistoricalData(tickers[i], startDate);
     data.push(tickerData);
   }
 
   res.json(data)
 })
 
-app.post("/stock_add", async (req: any, res: any) => {
+app.post("/validate_ticker", async (req: any, res: any) => {
   const ticker: string = req.body.ticker;
 
   const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`)

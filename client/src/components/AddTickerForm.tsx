@@ -20,7 +20,7 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
         setTickerInput("");
 
         // validate ticker input
-        fetch(serverRoute + '/stock_add', {
+        fetch(serverRoute + '/validate_ticker', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
