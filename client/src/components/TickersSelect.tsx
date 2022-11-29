@@ -4,19 +4,19 @@ import { AddTickerForm } from './AddTickerForm';
 
 interface Props {
     tickers: string[];
-    setTickers: (tickers: string[]) => void;
+    addTicker: (tickers: string) => void;
+    deleteTicker: (tickers: string) => void;
     getData: () => void;
 }
 
-export const TickersSelect: FC<Props> = ({ tickers, setTickers, getData }) => {
+export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, getData }) => {
 
 
   return (
       <div className="md:px-12 px-2 pt-14 md:pt-1 lg:w-6/12 md:w-8/12 w-10/12 m-auto">
 
       <AddTickerForm 
-        setTickers={setTickers}
-        tickers={tickers}
+        addTicker={addTicker}
       />
 
       <div className="flex justify-center">
@@ -24,7 +24,7 @@ export const TickersSelect: FC<Props> = ({ tickers, setTickers, getData }) => {
           return (
             <Ticker 
               ticker={ticker} 
-              setTickers={setTickers} 
+              deleteTicker={deleteTicker} 
               key={ticker}  
             />  
           )

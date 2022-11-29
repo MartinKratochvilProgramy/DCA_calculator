@@ -1,23 +1,45 @@
 import React, { useState, FC } from 'react';
+import { serverRoute } from '../serverRoute';
 
 interface Props {
-    tickers: string[];
-    setTickers: (ticker: string[]) => void;
+    addTicker: (ticker: string) => void;
 }
 
-export const AddTickerForm: FC<Props> = ({ tickers, setTickers }) => {
+interface Error {
+    code: string;
+    description: string;
+}
 
-    const [error, setError] = useState<null | string>(null);
+export const AddTickerForm: FC<Props> = ({ addTicker }) => {
+
+    const [error, setError] = useState<null | Error>(null);
     const [tickerInput, setTickerInput] = useState<string>("");
 
     function handleInputClick(e: React.FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         setTickerInput("");
-        setTickers([...tickers, tickerInput])
+
+        // validate ticker input
+        fetch(serverRoute + '/stock_add', {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ticker: tickerInput, 
+            })
+          })
+          .then((response) => response.json())
+          .then((res: null | Error) => {
+            setError(res);
+            if (res === null) {
+                addTicker(tickerInput);
+            }
+          })
     }
 
   return (
-    <div>
+    <div className='flex flex-col justify-center items-center'>
         <form 
             onSubmit={(e) => handleInputClick(e)} 
             className="flex flex-col space-y-4 items-center">   
@@ -33,7 +55,10 @@ export const AddTickerForm: FC<Props> = ({ tickers, setTickers }) => {
                 className="bg-gray-100 border w-full border-gray-300 text-gray-900 text-sm focus:outline-none block pl-4 p-2.5" 
                 placeholder="Ticker ('AAPL', 'MSFT', ... )" 
                 autoFocus
-                onChange={(e) => setTickerInput(e.target.value)} 
+                onChange={(e) => {
+                    setTickerInput(e.target.value)
+                    setError(null);
+                }} 
                 value={tickerInput}
                 />
                 <button
@@ -43,7 +68,7 @@ export const AddTickerForm: FC<Props> = ({ tickers, setTickers }) => {
                 </button>
             </div>
         </form>
-      {error && (<span className='font-semibold text-xl text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out'>{error}<br /></span>)}
+      {error && (<span className='font-semibold text-xl text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out'>{error.code}: {error.description}<br /></span>)}
     </div>
   )
 }

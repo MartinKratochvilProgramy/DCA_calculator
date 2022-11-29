@@ -11,7 +11,7 @@ interface TickerDataInterface {
 
 function App() {
 
-  const [tickers, setTickers] = useState<string[]>(["AAPL", "MSFT"]);
+  const [tickers, setTickers] = useState<string[]>([]);
   const [data, setData] = useState<TickerDataInterface[]>([]);
 
   function getData(): void {
@@ -38,11 +38,20 @@ function App() {
     
   }
 
+  function addTicker(newTicker: string): void {
+    setTickers([...tickers, newTicker]);
+  }
+
+  function deleteTicker(newTicker: string): void {
+    setTickers([...tickers, newTicker]);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <TickersSelect 
         tickers={tickers}
-        setTickers={setTickers}  
+        addTicker={addTicker}  
+        deleteTicker={deleteTicker}  
         getData={getData}
       />
       <TickersDisplay
