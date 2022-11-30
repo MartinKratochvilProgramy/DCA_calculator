@@ -72,7 +72,7 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
                     />
 
                 </div>
-                <div className="w-8/12 xs:w-4/12 flex">
+                <div className="w-4/12 flex">
                   {waitingForValidation ?
                     <LoadingButton
                       size="small"

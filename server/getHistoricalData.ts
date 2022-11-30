@@ -23,6 +23,8 @@ async function getHistoricalData(ticker: string, startDate: string): Promise<Tic
           dates.push(quotes[i].date);
           values.push(quotes[i].open)
         }
+        dates.reverse();
+        values.reverse();
         res({ticker, dates, values})
       });
     })

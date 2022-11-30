@@ -69,6 +69,8 @@ export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
     }
     useEffect(() => {
         setWaitingForData(false);
+        console.log(data);
+        
     }, [data])
     
 

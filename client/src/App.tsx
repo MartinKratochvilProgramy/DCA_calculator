@@ -37,7 +37,9 @@ function App() {
       },
       body: JSON.stringify({
         tickers: tickers,
-        startDate: startDate 
+        startDate: startDate,
+        startAmount: startAmount,
+        incrementAmount: incrementAmount 
       })
     })
     .then((response ) => response.json())
