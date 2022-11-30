@@ -83,6 +83,5 @@ function getDCAValues(relativeChange: number[], dates: string[], startAmount: nu
     }
   }
   
-  console.log(new Date(dates[0]).getDate(), new Date(dates[0]))
   return DCAValues;
 }
