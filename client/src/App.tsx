@@ -29,7 +29,6 @@ function App() {
 
 
   function getData(): void {
-    console.log("get data");
     setWaitingForData(true);
 
     fetch(serverRoute + '/get_chart_data', {
@@ -63,13 +62,10 @@ function App() {
   }
   
   function deleteTicker(tickerName: string): void {
-    console.log(tickerName);
-    
     const newTickers = tickers;
     newTickers.splice(newTickers.indexOf(tickerName), 1);
 
     localStorage.setItem("tickers", JSON.stringify(newTickers));
-    
     setTickers([...newTickers]);
   }
 

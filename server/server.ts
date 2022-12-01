@@ -49,7 +49,6 @@ app.post("/get_chart_data", async (req: any, res: any) => {
 
 app.post("/validate_ticker", async (req: any, res: any) => {
   const ticker: string = req.body.ticker;
-  console.log(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`);
 
   const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`)
   const stockInfoJson = await stockInfo.json()
