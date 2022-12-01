@@ -13,9 +13,7 @@ interface Props {
 
 export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate, setStartAmount, setIncrementAmount }) => {
 
-    const [dateValue, setDateValue] = React.useState<Dayjs>(
-        dayjs('2014-08-18T21:11:54'),
-      );
+    const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
 
     function handleChange(newValue: Dayjs | null): void {
         if (newValue === null) return;
@@ -26,7 +24,8 @@ export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate, setStartAmount,
 
   return (
     <div className='flex justify-center items-center'>
-        <form className='flex flex-col p-4 rounded '>
+        <form 
+            className='flex flex-col p-4 rounded '>
             <div className='flex flex-col mb-8 space-y-2'>
                 <TextField 
                     id="standard-basic" 
@@ -46,7 +45,7 @@ export const SelectRangesForm: FC<|Props>  = ({ modifyStartDate, setStartAmount,
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                 label="Starting date"
-                inputFormat="MM/DD/YYYY"
+                inputFormat="DD/MM/YYYY"
                 value={dateValue}
                 onChange={handleChange}
                 disableFuture={true}

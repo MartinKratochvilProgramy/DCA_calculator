@@ -12,19 +12,19 @@ interface TickerDataInterface {
 
 function App() {
 
-  const [tickers, setTickers] = useState<string[]>([]);
+  const [tickers, setTickers] = useState<string[]>(JSON.parse(localStorage.getItem("tickers") || "[]"));
   const [data, setData] = useState<TickerDataInterface[]>([]);
-  const [startDate, setStartDate] = useState<Dayjs>( dayjs('2014-08-18'));
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [startAmount, setStartAmount] = useState<number | null>(null);
   const [incrementAmount, setIncrementAmount] = useState<number | null>(null);
 
   const [inputComplete, setInputComplete] = useState<boolean>(false);
 
   useEffect(() => {
-    if (startAmount !== null && incrementAmount !== null && tickers.length > 0) {
+    if (startAmount !== null && incrementAmount !== null && tickers.length > 0 && startDate !== null) {
       setInputComplete(true);
     }
-  }, [startAmount, incrementAmount, tickers])
+  }, [startAmount, incrementAmount, tickers, startDate])
   
 
   function getData(): void {
@@ -44,8 +44,8 @@ function App() {
     })
     .then((response ) => response.json())
     .then((res) => {
-      console.log(res)
-      setData(res)
+      setData(res);
+
     })
     .catch((error) => {
       console.log(error.message)
@@ -56,15 +56,17 @@ function App() {
   function addTicker(newTicker: string): void {
     if (!tickers.includes(newTicker)) {
       setTickers([...tickers, newTicker]);
+      localStorage.setItem("tickers", JSON.stringify([...tickers, newTicker]));
     }
   }
-
+  
   function deleteTicker(tickerName: string): void {
     console.log(tickerName);
     
     const newTickers = tickers;
     newTickers.splice(newTickers.indexOf(tickerName), 1);
-    console.log(newTickers);
+
+    localStorage.setItem("tickers", JSON.stringify(newTickers));
     
     setTickers([...newTickers]);
   }

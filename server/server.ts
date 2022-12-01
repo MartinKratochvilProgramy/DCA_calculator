@@ -25,13 +25,23 @@ app.post("/get_chart_data", async (req: any, res: any) => {
   const data: TickerDataInterface[] = [];
 
   for (let i = 0; i < tickers.length; i++) {
+    // generate values for each ticker
     const tickerData: TickerDataInterface = await getHistoricalData(tickers[i], startDate);
     const relativeChange: number[] = getRelativeChange(tickerData.values);
     const DCAValues: number[] = getDCAValues(relativeChange, tickerData.dates, startAmount, incrementAmount);
     
     tickerData.values = DCAValues;
-
     data.push(tickerData);
+  }
+
+  // if nonzero increment, add no investment values
+  if (incrementAmount > 0) {
+    const nonInvestmentValues: TickerDataInterface = {
+      ticker: "No investment",
+      dates: data[0].dates,
+      values: getDCAValues(new Array(data[0].dates.length).fill(1), data[0].dates, startAmount, incrementAmount)
+    }
+    data.push(nonInvestmentValues);
   }
 
   res.json(data)

@@ -27,23 +27,18 @@ export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
     const [waitingForData, setWaitingForData] = useState<boolean>(false);
 
     const allSeriesLayout =  {
-        xaxis: {
-            title: {
-                text: 'Time',
-                font: {
-                    size: 18,
-                }
-                },
-        },
         yaxis: {
             title: {
-                text: `Value`,
+                text: `Value ($)`,
                 font: {
                     size: 18,
                 }
                 },
         },
-        autosize: true, 
+        margin: {
+            l: 100
+        },
+        autosize: true,
     } ;
 
     function initSeriesData(ticker: TickerData): SeriesData {
@@ -69,13 +64,11 @@ export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
     }
     useEffect(() => {
         setWaitingForData(false);
-        console.log(data);
-        
     }, [data])
     
 
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className='flex flex-col justify-center items-center w-full'>
         <div className='flex min-h-[36px]'>
             {waitingForData ? 
                 <LoadingButton
@@ -96,10 +89,14 @@ export const TickersDisplay: FC<Props> = ({ data, inputComplete, getData }) => {
             }
 
         </div>
-        <Plot
-            layout={allSeriesLayout}
-            data={allSeriesData}
-        />
+        <div className='flex justify-center items-center w-full min-h-[260px] md:min-h-[450px]'>
+            <Plot
+                layout={allSeriesLayout}
+                data={allSeriesData}
+                useResizeHandler
+                className="w-[90%] sm:w-[60%] h-[260px] md:h-full"
+            />
+        </div>
     </div>
   )
 }
