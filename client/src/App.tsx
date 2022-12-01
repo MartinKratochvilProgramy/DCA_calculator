@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TickersSelect } from './components/TickersSelect';
 import { TickersDisplay } from './components/TickersDisplay';
 import { serverRoute } from './serverRoute';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 interface TickerDataInterface {
   ticker: string;
@@ -14,6 +14,7 @@ function App() {
 
   const [tickers, setTickers] = useState<string[]>(JSON.parse(localStorage.getItem("tickers") || "[]"));
   const [data, setData] = useState<TickerDataInterface[]>([]);
+  const [waitingForData, setWaitingForData] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [startAmount, setStartAmount] = useState<number | null>(null);
   const [incrementAmount, setIncrementAmount] = useState<number | null>(null);
@@ -25,10 +26,11 @@ function App() {
       setInputComplete(true);
     }
   }, [startAmount, incrementAmount, tickers, startDate])
-  
+
 
   function getData(): void {
     console.log("get data");
+    setWaitingForData(true);
 
     fetch(serverRoute + '/get_chart_data', {
       method: 'POST',
@@ -45,7 +47,7 @@ function App() {
     .then((response ) => response.json())
     .then((res) => {
       setData(res);
-
+      setWaitingForData(false);
     })
     .catch((error) => {
       console.log(error.message)
@@ -79,15 +81,17 @@ function App() {
     <div className="flex flex-col justify-center items-center w-screen">
       <TickersSelect 
         tickers={tickers}
+        waitingForData={waitingForData}
+        inputComplete={inputComplete}
         addTicker={addTicker}  
         deleteTicker={deleteTicker}  
         modifyStartDate={modifyStartDate}
         setStartAmount={setStartAmount}
         setIncrementAmount={setIncrementAmount}
+        getData={getData}
       />
       <TickersDisplay
         data={data}
-        inputComplete={inputComplete}
         getData={getData}
       />
     </div>

@@ -6,14 +6,17 @@ import { Dayjs } from 'dayjs';
 
 interface Props {
     tickers: string[];
+    waitingForData: boolean;
+    inputComplete: boolean;
     addTicker: (tickers: string) => void;
     deleteTicker: (tickers: string) => void;
     modifyStartDate: (startDate: Dayjs) => void;
     setStartAmount: (startAmount: number) => void;
     setIncrementAmount: (incrementAmount: number) => void;
+    getData: () => void;
 }
 
-export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, modifyStartDate, setStartAmount, setIncrementAmount }) => {
+export const TickersSelect: FC<Props> = ({ tickers, waitingForData, inputComplete, addTicker, deleteTicker, modifyStartDate, setStartAmount, setIncrementAmount, getData }) => {
 
 
   return (
@@ -39,9 +42,12 @@ export const TickersSelect: FC<Props> = ({ tickers, addTicker, deleteTicker, mod
 
 
         <SelectRangesForm
+          waitingForData={waitingForData}
+          inputComplete={inputComplete}
           modifyStartDate={modifyStartDate}
           setStartAmount={setStartAmount}
           setIncrementAmount={setIncrementAmount}
+          getData={getData}
         />
     </div>
   )
