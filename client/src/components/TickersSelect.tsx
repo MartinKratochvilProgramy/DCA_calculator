@@ -26,7 +26,7 @@ export const TickersSelect: FC<Props> = ({ tickers, waitingForData, inputComplet
           addTicker={addTicker}
         />
 
-        <div className="flex justify-center flex-wrap my-2">
+        <div className="flex justify-center flex-wrap my-2 space-x-1">
           {tickers.map(ticker => {
             return (
               <Chip 
