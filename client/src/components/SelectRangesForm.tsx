@@ -42,7 +42,7 @@ export const SelectRangesForm: FC<|Props>  = ({ waitingForData, inputComplete, m
                     id="standard-basic" 
                     label="Starting amount ($)" 
                     variant="standard" 
-                    type={'number'}
+                    type='number'
                     onChange={(e) => setStartAmount(parseFloat(e.target.value))}
                     />
                 <TextField 

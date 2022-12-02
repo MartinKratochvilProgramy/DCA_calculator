@@ -20,7 +20,7 @@ export const TickersSelect: FC<Props> = ({ tickers, waitingForData, inputComplet
 
 
   return (
-      <div className="md:px-12 px-2 pt-14 md:pt-1 lg:w-6/12 md:w-8/12 w-10/12 mb-0">
+      <div className="md:px-12 px-2 pt-1 md:pt-14 lg:w-6/12 md:w-8/12 w-10/12 mb-0">
 
         <AddTickerForm 
           addTicker={addTicker}

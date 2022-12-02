@@ -1,44 +1,41 @@
 import express from 'express';
+import { TickerDataInterface } from './types/TickerDataInterface';
+import { getDCAValues, getHistoricalData, getRelativeChange } from './functions';
+
 const cors = require('cors');
 require('dotenv').config()
-const app = express();
-const getHistoricalData = require("./getHistoricalData");
 const fetch = require('node-fetch');
 
+const app = express();
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-interface TickerDataInterface {
-  ticker: string;
-  dates: string[];
-  values: number[];
-}
-
 app.post("/get_chart_data", async (req: any, res: any) => {
+  // generates chart data for each ticker in req.body.tickers
   const tickers: string[] = req.body.tickers;
   const startDate: string = req.body.startDate;
   const startAmount: number = req.body.startAmount;
   const incrementAmount: number = req.body.incrementAmount;
 
-  const data: TickerDataInterface[] = [];
+  const data: TickerDataInterface[] = []; // data array to be sent to client
 
   for (let i = 0; i < tickers.length; i++) {
     // generate values for each ticker
     const tickerData: TickerDataInterface = await getHistoricalData(tickers[i], startDate);
     const relativeChange: number[] = getRelativeChange(tickerData.values);
-    const DCAValues: number[] = getDCAValues(relativeChange, tickerData.dates, startAmount, incrementAmount);
     
-    tickerData.values = DCAValues;
+    tickerData.values = getDCAValues(relativeChange, tickerData.dates, startAmount, incrementAmount);
     data.push(tickerData);
   }
 
-  // if nonzero increment, add no investment values
+  // if nonzero increment, add DCA values with no growth for comparison in client
   if (incrementAmount > 0) {
     const nonInvestmentValues: TickerDataInterface = {
       ticker: "No investment",
       dates: data[0].dates,
+      // relative change is 1 for given time-frame
       values: getDCAValues(new Array(data[0].dates.length).fill(1), data[0].dates, startAmount, incrementAmount)
     }
     data.push(nonInvestmentValues);
@@ -48,6 +45,7 @@ app.post("/get_chart_data", async (req: any, res: any) => {
 })
 
 app.post("/validate_ticker", async (req: any, res: any) => {
+  // if ticker is valid, returns chart.error = null
   const ticker: string = req.body.ticker;
 
   const stockInfo = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`)
@@ -61,36 +59,3 @@ app.listen(PORT, () => {
   console.log(`Connected @ ${PORT}`);
 });
 
-function getRelativeChange(data: number[]): number[] {
-  const output: number[] = [];
-
-  for (let i = 0; i < data.length; i++) {
-    if (i === 0) {
-      output.push(1)
-    } else {
-      output.push(data[i] / data[i - 1])
-    }
-  }
-
-  return output;
-}
-
-function getDCAValues(relativeChange: number[], dates: string[], startAmount: number, incrementAmount: number): number[] {
-  const DCAValues: number[] = [startAmount];
-  let currentMonth: number = new Date(dates[0]).getMonth();
-
-  for (let i = 0; i < relativeChange.length; i++) {
-    
-    if (i > 0) {
-      const month = new Date(dates[i]).getMonth();
-      
-      if (month > currentMonth || (month === 0 && currentMonth === 11)) {
-        DCAValues[DCAValues.length - 1] += incrementAmount;
-        currentMonth = month;
-      }
-      DCAValues.push(relativeChange[i] * DCAValues[DCAValues.length - 1]);
-    }
-  }
-  
-  return DCAValues;
-}

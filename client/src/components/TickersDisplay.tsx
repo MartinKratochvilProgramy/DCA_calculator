@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import  { FC } from 'react'
 import Plot from 'react-plotly.js';  
 
 interface TickerData {
@@ -31,9 +31,14 @@ export const TickersDisplay: FC<Props> = ({ data, getData }) => {
                 },
         },
         margin: {
-            l: 100
+            t: 10,
+            b: 20
         },
         autosize: true,
+        legend:{
+            x:0 ,
+            y: 1.2, 
+          }
     } ;
 
     function initSeriesData(ticker: TickerData): SeriesData {
