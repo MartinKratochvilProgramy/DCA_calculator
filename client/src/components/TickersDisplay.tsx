@@ -32,7 +32,9 @@ export const TickersDisplay: FC<Props> = ({ data, getData }) => {
         },
         margin: {
             t: 10,
-            b: 20
+            b: 20,
+            l: 0,
+            r: 0
         },
         autosize: true,
         legend:{
@@ -65,7 +67,7 @@ export const TickersDisplay: FC<Props> = ({ data, getData }) => {
                 layout={allSeriesLayout}
                 data={allSeriesData}
                 useResizeHandler
-                className="w-[90%] sm:w-[60%] h-[260px] md:h-full"
+                className="w-[90%] lg:w-[70%] h-[260px] md:h-full"
             />
         </div>
     </div>
