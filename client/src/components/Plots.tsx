@@ -19,7 +19,7 @@ interface Props {
     getData: () => void;
 }
 
-export const TickersDisplay: FC<Props> = ({ data, getData }) => {
+export const Plots: FC<Props> = ({ data, getData }) => {
 
     const allSeriesLayout =  {
         yaxis: {

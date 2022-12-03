@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { TickersSelect } from './components/TickersSelect';
-import { TickersDisplay } from './components/TickersDisplay';
+import { Plots } from './components/Plots';
 import { serverRoute } from './serverRoute';
 import { Dayjs } from 'dayjs';
+import { TickerChipInterface } from './types/TickerChipInterface';
+import { TickerDataInterface } from './types/TickerDataInterface';
+import { getTotalRelativeChange } from './functions/getTotalRelativeChange';
 
-interface TickerDataInterface {
-  ticker: string;
-  dates: string[];
-  values: number[];
-}
 
 function App() {
 
-  const [tickers, setTickers] = useState<string[]>(JSON.parse(localStorage.getItem("tickers") || "[]"));
+  const [tickers, setTickers] = useState<TickerChipInterface[]>([]);
   const [data, setData] = useState<TickerDataInterface[]>([]);
   const [waitingForData, setWaitingForData] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
@@ -31,22 +29,29 @@ function App() {
   function getData(): void {
     setWaitingForData(true);
 
+    const tickerNames = [];
+    for (const ticker of tickers) {
+      tickerNames.push(ticker.ticker);
+    }
+
     fetch(serverRoute + '/get_chart_data', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        tickers: tickers,
+        tickers: tickerNames,
         startDate: startDate,
         startAmount: startAmount,
         incrementAmount: incrementAmount 
       })
     })
     .then((response ) => response.json())
-    .then((res) => {
+    .then((res: TickerDataInterface[]) => {
       setData(res);
       setWaitingForData(false);
+
+      setTickers(getTotalRelativeChange(res));
     })
     .catch((error) => {
       console.log(error.message)
@@ -55,17 +60,17 @@ function App() {
   }
 
   function addTicker(newTicker: string): void {
-    if (!tickers.includes(newTicker)) {
-      setTickers([...tickers, newTicker]);
-      localStorage.setItem("tickers", JSON.stringify([...tickers, newTicker]));
+    if (tickers.filter((item) => {return item.ticker === newTicker}).length === 0) {
+      // if not ticker already in ticker
+      setTickers([...tickers, {ticker: newTicker, relativeChange: null}]);
     }
   }
   
   function deleteTicker(tickerName: string): void {
-    const newTickers = tickers;
-    newTickers.splice(newTickers.indexOf(tickerName), 1);
+    const newTickers = tickers.filter((item) => {
+      return item.ticker != tickerName;
+    });
 
-    localStorage.setItem("tickers", JSON.stringify(newTickers));
     setTickers([...newTickers]);
   }
 
@@ -86,7 +91,7 @@ function App() {
         setIncrementAmount={setIncrementAmount}
         getData={getData}
       />
-      <TickersDisplay
+      <Plots
         data={data}
         getData={getData}
       />
