@@ -52,9 +52,6 @@ export const AddTickerForm: FC<Props> = ({ addTicker }) => {
             onSubmit={(e) => handleInputClick(e)} 
             className="flex flex-col space-y-4 items-center w-full">   
             <label htmlFor ="add-stock" className="sr-only">Add stock</label>
-            <h1 className='text-3xl font-semibold mt-2 py-4 md:py-4 mb-0 text-black'>
-              DCA CALCULATOR
-            </h1>
             <div className="relative flex flex-row justify-center h-full w-full space-x-2">
                 <div className='flex w-full'>
                     <label htmlFor ="add-stock" className="sr-only">Ticker input</label>
