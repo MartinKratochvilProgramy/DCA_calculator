@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
-import Button from '@mui/material/Button'; 
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Dayjs } from 'dayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import TextField from '@mui/material/TextField';
+import { Button, TextField, Select, FormControl, MenuItem, InputLabel } from '@mui/material'
+
 
 interface Props {
     waitingForData: boolean;
@@ -14,9 +14,20 @@ interface Props {
     setStartAmount: (startAmount: number) => void;
     setIncrementAmount: (incrementAmount: number) => void;
     getData: () => void;
+    investmentPeriod: string;
+    setInvestmentPeriod: (investmentPeriod: string) => void;
 }
 
-export const SelectRangesForm: FC<|Props>  = ({ waitingForData, inputComplete, modifyStartDate, setStartAmount, setIncrementAmount, getData }) => {
+export const SelectRangesForm: FC<|Props>  = ({ 
+    waitingForData, 
+    inputComplete, 
+    modifyStartDate, 
+    setStartAmount, 
+    setIncrementAmount, 
+    getData,
+    investmentPeriod,
+    setInvestmentPeriod
+}) => {
 
     const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
 
@@ -32,6 +43,7 @@ export const SelectRangesForm: FC<|Props>  = ({ waitingForData, inputComplete, m
         getData();
     }
 
+
   return (
     <div className='flex justify-center items-center'>
         <form 
@@ -45,13 +57,31 @@ export const SelectRangesForm: FC<|Props>  = ({ waitingForData, inputComplete, m
                     type='number'
                     onChange={(e) => setStartAmount(parseFloat(e.target.value))}
                     />
-                <TextField 
-                    id="standard-basic" 
-                    label="Monthly investment ($)" 
-                    variant="standard" 
-                    type={'number'}
-                    onChange={(e) => setIncrementAmount(parseFloat(e.target.value))}
-                />
+                <div className='flex items-end space-x-1'>
+                    <TextField 
+                        id="standard-basic" 
+                        label={`${investmentPeriod} investment ($)`}
+                        variant="standard" 
+                        type={'number'}
+                        onChange={(e) => setIncrementAmount(parseFloat(e.target.value))}
+                    />
+                    <div className='w-[110px]'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Period</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={investmentPeriod}
+                                label="Period"
+                                onChange={(e) => setInvestmentPeriod(e.target.value)}
+                            >
+                                <MenuItem value={"Weekly"}>Weekly</MenuItem>
+                                <MenuItem value={"Monthly"}>Monthly</MenuItem>
+                                <MenuItem value={"Yearly"}>Yearly</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
                         label="Starting date"

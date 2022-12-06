@@ -16,6 +16,8 @@ interface Props {
     setStartAmount: (startAmount: number) => void;
     setIncrementAmount: (incrementAmount: number) => void;
     getData: () => void;
+    investmentPeriod: string;
+    setInvestmentPeriod: (investmentPeriod: string) => void;
 }
 
 export const TickersSelect: FC<Props> = ({ 
@@ -27,7 +29,9 @@ export const TickersSelect: FC<Props> = ({
   modifyStartDate, 
   setStartAmount, 
   setIncrementAmount, 
-  getData 
+  getData ,
+  investmentPeriod,
+  setInvestmentPeriod
 }) => {
 
   return (
@@ -70,6 +74,8 @@ export const TickersSelect: FC<Props> = ({
           setStartAmount={setStartAmount}
           setIncrementAmount={setIncrementAmount}
           getData={getData}
+          investmentPeriod={investmentPeriod}
+          setInvestmentPeriod={setInvestmentPeriod}
         />
     </div>
   )

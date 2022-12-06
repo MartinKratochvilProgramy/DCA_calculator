@@ -16,6 +16,7 @@ function App() {
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [startAmount, setStartAmount] = useState<number | null>(null);
   const [incrementAmount, setIncrementAmount] = useState<number | null>(null);
+  const [investmentPeriod, setInvestmentPeriod] = useState<string>("Monthly");
 
   const [inputComplete, setInputComplete] = useState<boolean>(false);
 
@@ -90,6 +91,8 @@ function App() {
         setStartAmount={setStartAmount}
         setIncrementAmount={setIncrementAmount}
         getData={getData}
+        investmentPeriod={investmentPeriod}
+        setInvestmentPeriod={setInvestmentPeriod}
       />
       <Plots
         data={data}

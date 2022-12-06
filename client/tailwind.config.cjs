@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        muiblue: "#1565c0"
+        muiblue: "#1976d2"
       }
     },
   },
