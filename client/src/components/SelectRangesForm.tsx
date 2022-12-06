@@ -45,10 +45,10 @@ export const SelectRangesForm: FC<|Props>  = ({
 
 
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex justify-center items-center w-full'>
         <form 
             onSubmit={(e) => {handleSubmit(e)}}
-            className='flex justify-center items-center flex-col p-4 rounded '>
+            className='flex justify-center items-center flex-col p-4 rounded w-full'>
             <div className='flex flex-col mb-4 space-y-4'>
                 <TextField 
                     id="standard-basic" 
@@ -59,14 +59,15 @@ export const SelectRangesForm: FC<|Props>  = ({
                     />
                 <div className='flex items-end space-x-1'>
                     <TextField 
+                        fullWidth
                         id="standard-basic" 
                         label={`${investmentPeriod} investment ($)`}
                         variant="standard" 
-                        type={'number'}
+                        type='number'
                         onChange={(e) => setIncrementAmount(parseFloat(e.target.value))}
                     />
                     <div className='w-[110px]'>
-                        <FormControl fullWidth>
+                        <FormControl>
                             <InputLabel id="demo-simple-select-label">Period</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
