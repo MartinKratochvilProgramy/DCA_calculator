@@ -33,7 +33,7 @@ export const Plots: FC<Props> = ({ data, getData }) => {
         margin: {
             t: 10,
             b: 20,
-            l: 45,
+            l: 55,
             r: 0
         },
         autosize: true,
