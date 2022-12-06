@@ -10,7 +10,7 @@ const app = express();
 app.use(cors()); // allow localhost 3000 (client) requests
 app.use(express.json());
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 app.post("/get_chart_data", async (req: any, res: any) => {
   // generates chart data for each ticker in req.body.tickers
@@ -18,6 +18,7 @@ app.post("/get_chart_data", async (req: any, res: any) => {
   const startDate: string = req.body.startDate;
   const startAmount: number = req.body.startAmount;
   const incrementAmount: number = req.body.incrementAmount;
+  const investmentPeriod: string = req.body.investmentPeriod;
 
   const data: TickerDataInterface[] = []; // data array to be sent to client
 
@@ -26,7 +27,7 @@ app.post("/get_chart_data", async (req: any, res: any) => {
     const tickerData: TickerDataInterface = await getHistoricalData(tickers[i], startDate);
     const relativeChange: number[] = getRelativeChange(tickerData.values);
     
-    tickerData.values = getDCAValues(relativeChange, tickerData.dates, startAmount, incrementAmount);
+    tickerData.values = getDCAValues(relativeChange, tickerData.dates, startAmount, incrementAmount, investmentPeriod);
     data.push(tickerData);
   }
 
@@ -36,7 +37,7 @@ app.post("/get_chart_data", async (req: any, res: any) => {
       ticker: "No investment",
       dates: data[0].dates,
       // relative change is 1 for given time-frame
-      values: getDCAValues(new Array(data[0].dates.length).fill(1), data[0].dates, startAmount, incrementAmount)
+      values: getDCAValues(new Array(data[0].dates.length).fill(1), data[0].dates, startAmount, incrementAmount, investmentPeriod)
     }
     data.push(nonInvestmentValues);
   }

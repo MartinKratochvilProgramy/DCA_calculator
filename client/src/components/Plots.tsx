@@ -28,12 +28,12 @@ export const Plots: FC<Props> = ({ data, getData }) => {
                 font: {
                     size: 18,
                 }
-                },
+            },
         },
         margin: {
             t: 10,
             b: 20,
-            l: 0,
+            l: 45,
             r: 0
         },
         autosize: true,

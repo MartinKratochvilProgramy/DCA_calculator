@@ -44,7 +44,8 @@ function App() {
         tickers: tickerNames,
         startDate: startDate,
         startAmount: startAmount,
-        incrementAmount: incrementAmount 
+        incrementAmount: incrementAmount,
+        investmentPeriod: investmentPeriod
       })
     })
     .then((response ) => response.json())
