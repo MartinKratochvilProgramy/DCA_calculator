@@ -55,13 +55,15 @@ export const TickersSelect: FC<Props> = ({
               }
             }
             return (
-              <Chip 
-                key={item.ticker}
-                label={item.ticker + " " + itemRelativeChange} 
-                color="primary" 
-                variant="outlined" 
-                onDelete={() => deleteTicker(item.ticker)}  
-              />
+              <div className='mt-1'>
+                <Chip 
+                  key={item.ticker}
+                  label={item.ticker + " " + itemRelativeChange} 
+                  color="primary" 
+                  variant="outlined" 
+                  onDelete={() => deleteTicker(item.ticker)}  
+                />
+              </div>
             )
           })}
         </div>
