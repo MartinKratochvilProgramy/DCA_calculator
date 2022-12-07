@@ -18,7 +18,9 @@ interface Props {
     data: TickerData[];
 }
 
-export const Plots: FC<Props> = ({ data }) => {
+export const Plots: FC<Props> = ({ 
+    data 
+}) => {
 
     const allSeriesLayout =  {
         yaxis: {
