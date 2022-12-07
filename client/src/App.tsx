@@ -81,7 +81,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center bg-neutral-50 w-full h-full">
       <TickersSelect 
         tickers={tickers}
         waitingForData={waitingForData}

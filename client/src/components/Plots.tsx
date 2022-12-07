@@ -1,3 +1,4 @@
+import { red } from '@mui/material/colors';
 import  { FC } from 'react'
 import Plot from 'react-plotly.js';  
 
@@ -41,7 +42,9 @@ export const Plots: FC<Props> = ({
         legend:{
             x:0 ,
             y: 1.2, 
-          }
+          },
+        plot_bgcolor: '#fafafa',
+        paper_bgcolor: "#fafafa"
     } ;
 
     function initSeriesData(ticker: TickerData): SeriesData {
