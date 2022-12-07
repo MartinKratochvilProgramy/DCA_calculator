@@ -97,7 +97,6 @@ function App() {
       />
       <Plots
         data={data}
-        getData={getData}
       />
     </div>
   )
