@@ -1,4 +1,6 @@
-export default function getRelativeChange(data: number[]): number[] {
+export default function getRelativeChange(
+  data: number[]
+): number[] {
   const output: number[] = [];
 
   for (let i = 0; i < data.length; i++) {
