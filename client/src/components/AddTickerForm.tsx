@@ -52,7 +52,7 @@ export const AddTickerForm: FC<Props> = ({
     <div className='flex flex-col justify-center items-center'>
         <form 
             onSubmit={(e) => handleInputClick(e)} 
-            className="flex flex-col space-y-4 items-center w-full max-w-2xl">   
+            className="flex flex-col space-y-4 items-center w-full max-w-xl">   
             <label htmlFor ="add-stock" className="sr-only">Add stock</label>
             <div className="relative flex flex-row justify-center h-full w-full space-x-2">
                 <div className='flex w-full'>
