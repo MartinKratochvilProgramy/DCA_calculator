@@ -6,7 +6,10 @@ interface TickerDataInterface {
     values: number[];
 }
 
-export default async function getHistoricalData(ticker: string, startDate: string): Promise<TickerDataInterface> {
+export default async function getHistoricalData(
+  ticker: string, 
+  startDate: string
+): Promise<TickerDataInterface> {
   
   const tickerData: TickerDataInterface = await new Promise((res, rej) => {
     yahooFinance.historical({
