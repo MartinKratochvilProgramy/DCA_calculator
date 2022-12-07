@@ -12,7 +12,9 @@ interface Error {
     description: string;
 }
 
-export const AddTickerForm: FC<Props> = ({ addTicker }) => {
+export const AddTickerForm: FC<Props> = ({ 
+  addTicker 
+}) => {
 
     const [error, setError] = useState<null | Error>(null);
     const [waitingForValidation, setWaitingForValidation] = useState<boolean>(false);
